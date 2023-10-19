@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sample Management</title>
+</head>
+<body>
+    <h1>Sample Management</h1>
+
+    <h2>Search by Sample Code</h2>
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="sample_code" placeholder="Enter Sample Code">
+        <input type="submit" value="Search">
+    </form>
+
+    <h2>Register a New Sample</h2>
+    <a href="{% url 'register_sample' %}">Register a New Sample</a>
+</body>
+</html>

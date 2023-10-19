@@ -1,0 +1,27 @@
+<form method="post">
+  {% csrf_token %}
+  
+  {{ sample_form.as_p }}
+
+  <h2>Hazard Types</h2>
+  {{ hazard_type_formset.management_form }}
+  {{ hazard_type_formset.non_form_errors }}
+  <table>
+      <thead>
+          <tr>
+              <th>Name</th>
+              <th>Description</th>
+          </tr>
+      </thead>
+      <tbody>
+          {% for form in hazard_type_formset %}
+          <tr>
+              <td>{{ form.name }}</td>
+              <td>{{ form.description }}</td>
+          </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+
+  <input type="submit" value="Submit Sample">
+</form>
