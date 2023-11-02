@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sample Page</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">Sample Details</h1>
+        
+        <!-- Center and style the Unique Code -->
+        <div class="text-center mt-5 mb-5">
+            <p class="display-4">Unique Code: {{ sample.unique_code }}</p>
+        </div>
+
+        <!-- List the other sample details -->
+        <ul class="list-group">
+            <li class="list-group-item">
+                <strong>User Type:</strong> {{ sample.get_user_type_display }}
+            </li>
+            <li class="list-group-item">
+                <strong>User Name:</strong> {{ sample.user_name }}
+            </li>
+            <li class="list-group-item">
+                <strong>User ID:</strong> {{ sample.user_id }}
+            </li>
+            <li class="list-group-item">
+                <strong>Sample Name:</strong> {{ sample.sample_name }}
+            </li>
+            <li class="list-group-item">
+                <strong>Subject:</strong> {{ sample.subject }}
+            </li>
+            <li class="list-group-item">
+                <strong>Hazard Type:</strong>
+                {% for hazard in sample.hazard.all %}
+                    {{ hazard.name }}
+                    {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </li>            
+            <li class="list-group-item">
+                <strong>Submission Date:</strong> {{ sample.submission_date }}
+            </li>
+            <li class="list-group-item">
+                <strong>Expiration Date:</strong> {{ sample.expiration_date }}
+            </li>
+        </ul>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
