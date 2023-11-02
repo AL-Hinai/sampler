@@ -8,49 +8,42 @@
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
 
-    <script>
-        function redirectToSamplePage() {
-            // Get the value entered in the input field
-            var codeInput = document.getElementById("sampleCodeInput").value;
-    
-            // Check if the entered code is exactly 5 characters long
-            if (codeInput.length === 5) {
-                // Construct the URL for redirection
-                var redirectURL = "http://127.0.0.1:8000/sampler_app/sample/" + codeInput;
-    
-                // Redirect to the sample page with the entered code
-                window.location.href = redirectURL;
-                return false; // Prevent the form from submitting
-            }
-    
-            // If the code is not valid, you can display an error message or take other actions
-            // Here, we'll simply prevent the form from submitting
-            return false;
-        }
-    </script>
-    
+
 
 </head>
 <body>
+
+
+
     <div class="container mt-5">
         <h1 class="text-center mb-4">Sample Management</h1>
 
 
-        <div class="card mb-4">
+       <div class="card mb-4">
             <div class="card-body">
-                <h2 class="card-title">Sample Code </h2>
-                <form method="post" action="{% url 'sample_search' %}" onsubmit="return redirectToSamplePage()">
+                <h2 class="card-title">Code Search</h2>
+                <form method="post" action="{% url 'code_search' %}">
                     {% csrf_token %}
                     <div class="input-group">
-                        <input type="text" name="search_query" class="form-control" id="sampleCodeInput" placeholder="Enter the sample Code">
+                        <input type="text" name="search_query" id="search_query" class="custom-input form-control" placeholder="Enter your search query">
+
                         <button type="submit" class="btn btn-success">Search</button>
                     </div>
                 </form>
+               {% if no_results and request.method == "POST" %}
+                    <div class="alert alert-warning">
+                        <strong>Alert:</strong> No matching codes found
+                        {% if request.POST.search_query|length != 5 %}
+                            <br>Your code should be exactly 5 characters long.
+                        {% endif %}
+                    </div>
+                {% endif %}
             </div>
         </div>
 
-        
-        
+
+
+
 
         <div class="card mb-4">
             <div class="card-body">
@@ -71,8 +64,8 @@
                 <a href="{% url 'register_sample' %}" class="btn btn-success" style="width: 100%;">Register a New Sample</a>
             </div>
         </div>
-        
-        
+
+
     </div>
 
     <!-- Include Bootstrap JS and Popper.js if needed -->

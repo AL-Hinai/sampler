@@ -3,11 +3,18 @@
 <head>
     <title>Sample Page</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Management</title>
+
+
 </head>
 <body>
     <div class="container mt-5">
         <h1 class="text-center">Sample Details</h1>
-        
+
         <!-- Center and style the Unique Code -->
         <div class="text-center mt-5 mb-5">
             <p class="display-4">Unique Code: {{ sample.unique_code }}</p>
@@ -36,7 +43,7 @@
                     {{ hazard.name }}
                     {% if not forloop.last %}, {% endif %}
                 {% endfor %}
-            </li>            
+            </li>
             <li class="list-group-item">
                 <strong>Submission Date:</strong> {{ sample.submission_date }}
             </li>

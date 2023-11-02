@@ -3,16 +3,19 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import SampleForm
 from .models import Sample, HazardType
-from django.db.models import Q
-
+from django.contrib import messages
 
 def index(request):
+    no_results = False  # Initially assume there are results
     if request.method == 'POST':
-        # Handle the search for a sample code here (you can add this logic)
-        pass
+        search_query = request.POST.get('search_query')
+        samples = Sample.objects.filter(unique_code__icontains=search_query) | Sample.objects.filter(sample_name__icontains=search_query)
+        if not samples:
+            no_results = True
     else:
         form = SampleForm()
-    return render(request, 'sampler_app/index.html', {'form': form})
+
+    return render(request, 'sampler_app/index.html', {'form': form, 'no_results': no_results})
 
 def register_sample(request):
     if request.method == 'POST':
@@ -60,7 +63,7 @@ def register_sample(request):
 def sample_page(request, unique_code):
     # Retrieve the sample based on the unique_code or show a 404 error if not found
     sample = get_object_or_404(Sample, unique_code=unique_code)
-    
+
     return render(request, 'sampler_app/sample.html', {'sample': sample})
 
 def sample_search(request):
@@ -69,5 +72,21 @@ def sample_search(request):
         samples = Sample.objects.filter(unique_code__icontains=search_query) | Sample.objects.filter(sample_name__icontains=search_query)
         return render(request, 'sampler_app/sample_search.html', {'samples': samples, 'search_query': search_query})
     else:
-        return render(request, 'sampler_app/sample_search.html')  # Display the search form
-    
+        return render(request, 'sampler_app/sample_search.html')
+
+def code_search(request):
+    if request.method == 'POST':
+        search_query = request.POST.get('search_query')
+        samples = Sample.objects.filter(unique_code__icontains=search_query) | Sample.objects.filter(sample_name__icontains=search_query)
+
+        if samples.exists():
+            sample = samples.first()
+            return redirect('sample_page', unique_code=sample.unique_code)
+        else:
+            no_results = True
+            messages.info(request, 'No sample with the provided code or name was found.')
+
+    return render(request, 'sampler_app/index.html', {'no_results': no_results})
+
+
+
