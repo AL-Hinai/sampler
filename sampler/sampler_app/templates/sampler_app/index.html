@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample Management</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css">
+
+    <script>
+        function redirectToSamplePage() {
+            // Get the value entered in the input field
+            var codeInput = document.getElementById("sampleCodeInput").value;
+    
+            // Check if the entered code is exactly 5 characters long
+            if (codeInput.length === 5) {
+                // Construct the URL for redirection
+                var redirectURL = "http://127.0.0.1:8000/sampler_app/sample/" + codeInput;
+    
+                // Redirect to the sample page with the entered code
+                window.location.href = redirectURL;
+                return false; // Prevent the form from submitting
+            }
+    
+            // If the code is not valid, you can display an error message or take other actions
+            // Here, we'll simply prevent the form from submitting
+            return false;
+        }
+    </script>
+    
+
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Sample Management</h1>
+
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Sample Code </h2>
+                <form method="post" action="{% url 'sample_search' %}" onsubmit="return redirectToSamplePage()">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" name="search_query" class="form-control" id="sampleCodeInput" placeholder="Enter the sample Code">
+                        <button type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        
+        
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Search For Sample</h2>
+                <form method="post" action="{% url 'sample_search' %}">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="text" name="search_query" class="form-control" placeholder="Enter Sample Code or Sample Name">
+                        <button type="submit" class="btn btn-success">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h2 class="card-title">Register a New Sample</h2>
+                <a href="{% url 'register_sample' %}" class="btn btn-success" style="width: 100%;">Register a New Sample</a>
+            </div>
+        </div>
+        
+        
+    </div>
+
+    <!-- Include Bootstrap JS and Popper.js if needed -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script> -->
+</body>
+</html>
